@@ -11,13 +11,15 @@ module.exports = function Game ( firstPlayer, secondPlayer ) {
     secondPlayer.hand = gameDeck.dealHand()
 
     var noOneHasWonYet = true
+    var round = 0
     while ( noOneHasWonYet ) {
 
       firstPlayer.drawCard()
       secondPlayer.drawCard()
 
-      console.log( 'First Player: ', firstPlayer.showCurrentCardTitle() )
-      console.log( 'Second Player: ', secondPlayer.showCurrentCardTitle() )
+      console.log( 'Round: ' + round )
+      console.log( firstPlayer.username, firstPlayer.showCurrentCardTitle() )
+      console.log( secondPlayer.username, secondPlayer.showCurrentCardTitle() )
 
       if ( firstPlayer.showCurrentCardScore() === secondPlayer.showCurrentCardScore() ) {
 
@@ -29,8 +31,8 @@ module.exports = function Game ( firstPlayer, secondPlayer ) {
           firstPlayer.drawCard()
           secondPlayer.drawCard()
 
-          console.log( 'First Player: ', firstPlayer.showCurrentCardTitle() )
-          console.log( 'Second Player: ', secondPlayer.showCurrentCardTitle() )
+          console.log( firstPlayer.username, firstPlayer.showCurrentCardTitle() )
+          console.log( secondPlayer.username, secondPlayer.showCurrentCardTitle() )
 
           if ( firstPlayer.showCurrentCardScore() === secondPlayer.showCurrentCardScore() ) {
 
@@ -38,13 +40,13 @@ module.exports = function Game ( firstPlayer, secondPlayer ) {
 
           } else if ( firstPlayer.showCurrentCardScore() > secondPlayer.showCurrentCardScore() ) {
 
-            console.log('First player wins this round!')
+            console.log( firstPlayer.username + ' wins this round!')
             firstPlayer.collectWinnings( secondPlayer )
             war = false
 
           } else {
 
-            console.log('Second player wins this round!')
+            console.log( secondPlayer.username + ' wins this round!')
             secondPlayer.collectWinnings( firstPlayer )
             war = false
 
@@ -54,32 +56,34 @@ module.exports = function Game ( firstPlayer, secondPlayer ) {
 
       } else if ( firstPlayer.showCurrentCardScore() > secondPlayer.showCurrentCardScore() ) {
 
-        console.log('First player wins this round!')
+        console.log( firstPlayer.username + ' wins this round!')
         firstPlayer.collectWinnings( secondPlayer )
 
       } else {
 
-        console.log('Second player wins this round!')
+        console.log( secondPlayer.username + ' wins this round!')
         secondPlayer.collectWinnings( firstPlayer )
 
       }
 
-      console.log( 'First Player has ' + firstPlayer.showHandLength() + ' cards' )
-      console.log( 'Second Player has ' + secondPlayer.showHandLength() + ' cards' )
+      console.log( firstPlayer.username + ' has ' + firstPlayer.showHandLength() + ' cards' )
+      console.log( secondPlayer.username + ' has ' + secondPlayer.showHandLength() + ' cards' )
       console.log( 'cards: ', firstPlayer.hand.length + secondPlayer.hand.length )
       console.log( '-----------------------------' )
-   
+
       if ( firstPlayer.showHandLength() === 0 ) {
 
-        console.log( 'Second Player has won!' )
+        console.log( secondPlayer.username + ' has won!' )
         noOneHasWonYet = false
 
       } else if ( secondPlayer.showHandLength() === 0 ) {
 
-        console.log( 'First Player has won!' )
+        console.log( firstPlayer.username + ' has won!' )
         noOneHasWonYet = false
 
       }
+
+      round++
 
     }
 
